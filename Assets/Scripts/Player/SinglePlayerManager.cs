@@ -60,11 +60,6 @@ public class SinglePlayerManager : MonoBehaviour {
     public void Movement() {
 #if UNITY_STANDALONE
 
-        moveHorz = Input.GetAxis("Horizontal");
-        moveVert = Input.GetAxis("Vertical");
-        Vector3 movement = new Vector3(moveHorz, 0, moveVert);
-        playerRigidbody.velocity = movement * playerSpeed;
-
         #region LOOKAT_MOUSE
         Plane playerPlane = new Plane(Vector3.up, transform.position);
         //generate a ray from cursor position
@@ -79,6 +74,11 @@ public class SinglePlayerManager : MonoBehaviour {
             //smoothly rotate towards the target point
             transform.rotation = Quaternion.Lerp(transform.rotation, targetrotation, playerSpeed * Time.deltaTime);}
         #endregion
+
+        moveHorz = Input.GetAxis("Horizontal") * playerSpeed;
+        moveVert = Input.GetAxis("Vertical") * playerSpeed / 2;
+        Vector3 movement = new Vector3(moveHorz, 0, moveVert);
+        playerRigidbody.velocity = movement;
 
 #elif UNITY_ANDROID
 
